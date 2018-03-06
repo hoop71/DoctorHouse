@@ -1,36 +1,26 @@
 import React, { Component } from 'react';
 
 class Footer extends Component {
-    render(){
+    render() {
         return (
-            <footer className={"footer" + (this.props.transparent !== undefined ? " footer-transparent":"")}>
-                <div className={"container" + (this.props.fluid !== undefined ? "-fluid":"")}>
+            <footer className={'footer' + (this.props.transparent !== undefined ? ' footer-transparent' : '')}>
+                <div className={'container' + (this.props.fluid !== undefined ? '-fluid' : '')}>
                     <nav className="pull-left">
                         <ul>
                             <li>
-                                <a href="#pablo">
-                                    Home
-                                </a>
+                                <a href="#">Home</a>
                             </li>
                             <li>
-                                <a href="#pablo">
-                                    Company
-                                </a>
+                                <a href="#">Clientes</a>
                             </li>
                             <li>
-                                <a href="#pablo">
-                                    Portfolio
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#pablo">
-                                    Blog
-                                </a>
+                                <a href="#">Preyectos</a>
                             </li>
                         </ul>
                     </nav>
                     <p className="copyright pull-right">
-                        &copy; {1900 + (new Date()).getYear()} <a href="http://www.creative-tim.com">Creative Tim</a>, made with <i className="fa fa-heart heart"></i> for a better web
+                        &copy; {1900 + new Date().getYear()} <a href="#">DoctorHouse</a>, made with{' '}
+                        <i className="fa fa-fire fire" /> <a href="mhooper72.com">mhooper72</a>
                     </p>
                 </div>
             </footer>

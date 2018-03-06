@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
-import {
-    Navbar
-} from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
-class PagesHeader extends Component{
-    constructor(props){
+class PagesHeader extends Component {
+    constructor(props) {
         super(props);
         this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
         this.state = {
             width: window.innerWidth
-        }
+        };
     }
     // function that sets the class to active of the active page
     activeRoute(routeName) {
         return window.location.pathname.indexOf(routeName) > -1 ? 'active' : '';
     }
     // function that shows/hides sidebar on responsive
-    mobileSidebarToggle(e){
+    mobileSidebarToggle(e) {
         document.documentElement.classList.toggle('nav-open');
     }
-    updateWidth(){
-        this.setState({width: window.innerWidth});
+    updateWidth() {
+        this.setState({ width: window.innerWidth });
     }
-    componentDidMount(){
-        window.addEventListener("resize", this.updateWidth.bind(this));
+    componentDidMount() {
+        window.addEventListener('resize', this.updateWidth.bind(this));
     }
-    render(){
+    render() {
         return (
             <Navbar collapseOnSelect inverse className="navbar-primary navbar-transparent navbar-absolute">
                 <Navbar.Header>
                     <Navbar.Brand>
                         <NavLink to={'/dashboard'} className="nav-link">
-                            { this.state.width > 429 ? "Light Bootstrap Dashboard Pro React":"LBD PRO React" }
+                            {this.state.width > 429 ? 'DoctorHouse' : 'DoctorHouse'}
                         </NavLink>
                     </Navbar.Brand>
                     <Navbar.Toggle onClick={this.mobileSidebarToggle} />
@@ -41,26 +39,20 @@ class PagesHeader extends Component{
                     <ul className="nav navbar-nav navbar-right">
                         <li>
                             <NavLink to={'/dashboard'} className="nav-link">
-                                <i className="fa fa-th-list"></i>
+                                <i className="fa fa-th-list" />
                                 <p>Dashboard</p>
                             </NavLink>
                         </li>
                         <li className={this.activeRoute('login-page')}>
                             <NavLink to={'/pages/login-page'} className="nav-link">
-                                <i className="fa fa-drivers-license-o"></i>
+                                <i className="fa fa-drivers-license-o" />
                                 <p>Login</p>
                             </NavLink>
                         </li>
                         <li className={this.activeRoute('register-page')}>
                             <NavLink to={'/pages/register-page'} className="nav-link">
-                                <i className="fa fa-user-circle-o"></i>
+                                <i className="fa fa-user-circle-o" />
                                 <p>Register</p>
-                            </NavLink>
-                        </li>
-                        <li className={this.activeRoute('lock-screen-page')}>
-                            <NavLink to={'/pages/lock-screen-page'} className="nav-link">
-                                <i className="fa fa-lock"></i>
-                                <p>Lock Screen</p>
                             </NavLink>
                         </li>
                     </ul>

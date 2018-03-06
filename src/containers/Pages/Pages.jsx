@@ -1,9 +1,5 @@
-import React, {Component} from 'react';
-import {
-    Switch,
-    Route
-} from 'react-router-dom';
-
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import Footer from 'components/Footer/Footer.jsx';
 import PagesHeader from 'components/Header/PagesHeader.jsx';
 
@@ -12,49 +8,50 @@ import pagesRoutes from 'routes/pages.jsx';
 
 import bgImage from 'assets/img/full-screen-image-3.jpg';
 
-class Pages extends Component{
-    getPageClass(){
-        var pageClass = "";
+class Pages extends Component {
+    getPageClass() {
+        var pageClass = '';
         switch (this.props.location.pathname) {
-            case "/pages/login-page":
-                pageClass = " login-page";
+            case '/pages/login-page':
+                pageClass = ' login-page';
                 break;
-            case "/pages/register-page":
-                pageClass = " register-page";
+            case '/pages/register-page':
+                pageClass = ' register-page';
                 break;
-            case "/pages/lock-screen-page":
-                pageClass = " lock-page";
+            case '/pages/lock-screen-page':
+                pageClass = ' lock-page';
                 break;
             default:
-                pageClass = "";
+                pageClass = '';
                 break;
         }
         return pageClass;
     }
-    componentWillMount(){
-        if(document.documentElement.className.indexOf('nav-open') !== -1){
+    componentWillMount() {
+        if (document.documentElement.className.indexOf('nav-open') !== -1) {
             document.documentElement.classList.toggle('nav-open');
         }
     }
-    render(){
+    render() {
         return (
-            <div>
-                <PagesHeader />
+            <div props={this.props}>
+                <PagesHeader props={this.props} />
                 <div className="wrapper wrapper-full-page">
-                    <div className={"full-page"+this.getPageClass()} data-color="black" data-image={bgImage}>
+                    <div className={'full-page' + this.getPageClass()} data-color="black" data-image={bgImage}>
                         <div className="content">
-                            <Switch>
-                                {
-                                    pagesRoutes.map((prop,key) => {
-                                        return (
-                                            <Route path={prop.path} component={prop.component}  key={key}/>
-                                        );
-                                    })
-                                }
+                            <Switch props={this.props}>
+                                {pagesRoutes.map((prop, key) => {
+                                    return (
+                                        <Route
+                                            path={prop.path}
+                                            render={routeProps => <prop.component {...routeProps} props={this.props} />}
+                                        />
+                                    );
+                                })}
                             </Switch>
                         </div>
-                        <Footer transparent/>
-                        <div className="full-page-background" style={{backgroundImage: "url("+bgImage+")"}}></div>
+                        <Footer transparent />
+                        <div className="full-page-background" style={{ backgroundImage: 'url(' + bgImage + ')' }} />
                     </div>
                 </div>
             </div>
