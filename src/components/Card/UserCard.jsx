@@ -1,22 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { AppContext } from '../../containers/App/App';
 // import Dropzone from 'react-dropzone';
 // import { Button } from 'react-bootstrap';
-import { database, storage } from '../../firebase/firebase';
 
 class UserCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      photoURL: null,
-      selectedFile: null,
-      storageRef: storage
-        .child('users/')
-        .child(`${this.props.userID}/`)
-        .child('profile_picture'),
-      databaseRef: database
-        .child('users/')
-        .child(`${this.props.userID}/`)
-        .child('profile_picture')
+      selectedFile: null
     };
     this.fileSelectedHandler = this.fileSelectedHandler.bind(this);
     this.fileUploadHandler = this.fileUploadHandler.bind(this);
@@ -57,28 +48,35 @@ class UserCard extends Component {
 
   render() {
     return (
-      <div className="card card-user">
-        <div className="image">
-          <img src={this.props.bgImage} alt="..." />
-        </div>
-        <div className="content">
-          <div className="author">
-            <img className="avatar border-gray" src={this.state.photoURL} alt="..." />
-            <div>
-              <input type="file" onChange={this.fileSelectedHandler} />
-              <button onClick={this.fileUploadHandler}>Update Photo</button>
+      <AppContext.Consumer>
+        {context => (
+          <Fragment>
+            <div className="card card-user">
+              <div className="image">
+                <img src={this.props.bgImage} alt="..." />
+              </div>
+              <div className="content">
+                <div className="author">
+                  <img className="avatar border-gray" src={this.props.avatar} alt="..." />
+                  <div>
+                    <input type="file" onChange={this.fileSelectedHandler} />
+                    <button onClick={this.fileUploadHandler}>Update Photo</button>
+                  </div>
+                  <h4 className="title">
+                    {context.state.first}
+                    {context.state.last}
+                    <br />
+                    <small>{this.props.userName}</small>
+                  </h4>
+                </div>
+                <p className="description text-center">{context.state.aboutMe}</p>
+              </div>
+              <hr />
+              <div className="text-center">{this.props.socials}</div>
             </div>
-            <h4 className="title">
-              {this.props.name}
-              <br />
-              <small>{this.props.userName}</small>
-            </h4>
-          </div>
-          <p className="description text-center">{this.props.description}</p>
-        </div>
-        <hr />
-        <div className="text-center">{this.props.socials}</div>
-      </div>
+          </Fragment>
+        )}
+      </AppContext.Consumer>
     );
   }
 }

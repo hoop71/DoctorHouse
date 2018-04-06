@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { auth, database } from '../../firebase/firebase';
-
+import { auth, database, storage } from '../../firebase/firebase';
 // dinamically create app routes
 import appRoutes from 'routes/app.jsx';
 
+//make a new context
+export const AppContext = React.createContext();
+
 const INITIAL_STATE = {
-  user: null,
   userID: null,
   loading: true,
   first: null,
@@ -15,36 +16,46 @@ const INITIAL_STATE = {
   address: null,
   city: null,
   state: null,
+  photoUrl: null,
   country: null,
   aboutMe: null,
-  userPhotoURL: null
+  profile_picture: null,
+  userRef: null,
+  storageRef: null,
+  tree: false
 };
 
-class App extends Component {
+// PROVIDER COMPONENT
+class AppProvider extends Component {
   constructor(props) {
     super(props);
-    this.userRef = null;
     this.state = {
-      ...INITIAL_STATE
+      ...INITIAL_STATE,
+      updateUserProfilePhoto: () => {
+        this.setState({});
+      }
     };
   }
 
   componentDidMount() {
     auth.onAuthStateChanged(currentUser => {
       if (currentUser) {
-        this.userRef = database.child('users/').child(currentUser.uid);
-        console.log('userRef', this.userRef);
+        this.setState({
+          userRef: database.child('users/').child(currentUser.uid),
+          storageRef: storage.child('users/').child(currentUser.uid)
+        });
+        console.log('userRef', this.state.userRef);
         console.log('User Singed In', currentUser);
         this.setState({
           currentUser: currentUser,
           userID: currentUser.uid,
           email: currentUser.email
         });
-        this.userRef.on('value', snap => {
-          this.setState({ user: snap.val() });
-        });
-        this.userRef.on('value', snap => {
+
+        this.state.userRef.on('value', snap => {
+          console.log(snap);
           this.setState({
+            loading: false,
             first: snap.val().first,
             last: snap.val().last,
             city: snap.val().city,
@@ -52,7 +63,7 @@ class App extends Component {
             country: snap.val().country,
             state: snap.val().state,
             aboutMe: snap.val().aboutMe,
-            userPhotoURL: snap.val().userPhotoURL
+            photoURL: snap.val().profile_picture
           });
         });
       } else {
@@ -73,17 +84,33 @@ class App extends Component {
 
   render() {
     return (
-      <Switch>
-        {appRoutes.map((prop, key) => {
-          return (
-            <Route
-              key={key}
-              path={prop.path}
-              render={routeProps => <prop.component {...routeProps} {...this.state} key={key} {...this.props} />}
-            />
-          );
-        })}
-      </Switch>
+      <AppContext.Provider
+        value={{
+          state: this.state
+        }}
+      >
+        {this.props.children}
+      </AppContext.Provider>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <AppProvider>
+        <Switch>
+          {appRoutes.map((prop, key) => {
+            return (
+              <Route
+                key={key}
+                path={prop.path}
+                render={routeProps => <prop.component {...routeProps} {...this.state} key={key} {...this.props} />}
+              />
+            );
+          })}
+        </Switch>
+      </AppProvider>
     );
   }
 }

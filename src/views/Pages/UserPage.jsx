@@ -5,7 +5,6 @@ import EditProfile from 'views/Components/EditProfile';
 class UserPage extends Component {
   constructor(props) {
     super(props);
-    this.userRef = null;
     this.state = {
       isBeingEdited: false
     };
@@ -25,13 +24,12 @@ class UserPage extends Component {
 
   render() {
     const { isBeingEdited } = this.state;
-
     return (
       <div>
         {isBeingEdited ? (
-          <EditProfile {...this.props} isBeingEdited={isBeingEdited} toggleEditMode={this.toggleEditMode} />
+          <EditProfile isBeingEdited={isBeingEdited} toggleEditMode={this.toggleEditMode} />
         ) : (
-          <ViewProfile {...this.props} isBeingEdited={isBeingEdited} toggleEditMode={this.toggleEditMode} />
+          <ViewProfile isBeingEdited={isBeingEdited} toggleEditMode={this.toggleEditMode} />
         )}
       </div>
     );
