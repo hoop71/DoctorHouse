@@ -8,18 +8,18 @@ class Footer extends Component {
                     <nav className="pull-left">
                         <ul>
                             <li>
-                                <a href="#">Home</a>
+                                <a>Home</a>
                             </li>
                             <li>
-                                <a href="#">Clientes</a>
+                                <a>Clientes</a>
                             </li>
                             <li>
-                                <a href="#">Preyectos</a>
+                                <a>Preyectos</a>
                             </li>
                         </ul>
                     </nav>
                     <p className="copyright pull-right">
-                        &copy; {1900 + new Date().getYear()} <a href="#">DoctorHouse</a>, made with{' '}
+                        &copy; {1900 + new Date().getYear()} <a href="/">DoctorHouse</a>, made with{' '}
                         <i className="fa fa-fire fire" /> <a href="mhooper72.com">mhooper72</a>
                     </p>
                 </div>

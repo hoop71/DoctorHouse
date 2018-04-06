@@ -4,7 +4,6 @@ import { Grid, Row, Col, FormGroup, ControlLabel, FormControl } from 'react-boot
 import { auth } from '../../firebase';
 import Card from 'components/Card/Card.jsx';
 import Button from 'elements/CustomButton/CustomButton.jsx';
-import SweetAlert from 'react-bootstrap-sweetalert';
 
 const INITIAL_STATE = {
   email: '',
@@ -39,7 +38,7 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { email, password, error } = this.state;
+    const { email, password } = this.state;
     const isInvalid = password === '' || email === '';
     return (
       <Grid>

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { auth, database } from '../../firebase/firebase';
-import { map } from 'lodash';
 
 // dinamically create app routes
 import appRoutes from 'routes/app.jsx';
 
 const INITIAL_STATE = {
-  userAuthed: false,
+  user: null,
   userID: null,
   loading: true,
   first: null,
@@ -17,54 +16,45 @@ const INITIAL_STATE = {
   city: null,
   state: null,
   country: null,
-  aboutMe: null
+  aboutMe: null,
+  userPhotoURL: null
 };
 
 class App extends Component {
   constructor(props) {
     super(props);
-
+    this.userRef = null;
     this.state = {
-      userAuthed: false,
-      userID: null,
-      loading: true,
-      first: null,
-      last: null,
-      email: null,
-      address: null,
-      city: null,
-      state: null,
-      country: null,
-      aboutMe: null
+      ...INITIAL_STATE
     };
   }
 
   componentDidMount() {
     auth.onAuthStateChanged(currentUser => {
       if (currentUser) {
+        this.userRef = database.child('users/').child(currentUser.uid);
+        console.log('userRef', this.userRef);
         console.log('User Singed In', currentUser);
         this.setState({
           currentUser: currentUser,
           userID: currentUser.uid,
-          email: currentUser.email,
-          userAuthed: true,
-          userPhotoURL: 'me',
-          displayName: currentUser.displayName
+          email: currentUser.email
         });
-        database
-          .child('users/')
-          .child(`${this.state.userID}`)
-          .once('value', snap => {
-            this.setState({
-              first: snap.val().first,
-              last: snap.val().last,
-              address: snap.val().address,
-              city: snap.val().city,
-              state: snap.val().state,
-              country: snap.val().country,
-              aboutMe: snap.val().aboutMe
-            });
+        this.userRef.on('value', snap => {
+          this.setState({ user: snap.val() });
+        });
+        this.userRef.on('value', snap => {
+          this.setState({
+            first: snap.val().first,
+            last: snap.val().last,
+            city: snap.val().city,
+            address: snap.val().address,
+            country: snap.val().country,
+            state: snap.val().state,
+            aboutMe: snap.val().aboutMe,
+            userPhotoURL: snap.val().userPhotoURL
           });
+        });
       } else {
         console.log('User Singed Out', currentUser);
         this.setState(() => ({ ...INITIAL_STATE }));
@@ -82,12 +72,12 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, uid } = this.state;
     return (
       <Switch>
         {appRoutes.map((prop, key) => {
           return (
             <Route
+              key={key}
               path={prop.path}
               render={routeProps => <prop.component {...routeProps} {...this.state} key={key} {...this.props} />}
             />

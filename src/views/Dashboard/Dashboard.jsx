@@ -6,7 +6,6 @@ import ChartistGraph from 'react-chartist';
 import { scaleLinear } from 'd3-scale';
 // react components used to create a SVG / Vector map
 import { ComposableMap, ZoomableGroup, Geographies, Geography } from 'react-simple-maps';
-
 import Card from 'components/Card/Card.jsx';
 import StatsCard from 'components/Card/StatsCard.jsx';
 import Tasks from 'components/Tasks/Tasks.jsx';

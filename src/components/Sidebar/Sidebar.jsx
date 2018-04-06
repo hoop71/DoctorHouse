@@ -10,7 +10,6 @@ import image from 'assets/img/full-screen-image-3.jpg';
 // image for avatar in Sidebar
 import avatar from 'assets/img/default-avatar.png';
 // logo for sidebar
-import logo from 'logo.svg';
 import dashRoutes from 'routes/dash.jsx';
 
 const bgImage = { backgroundImage: 'url(' + image + ')' };
@@ -66,7 +65,7 @@ class Sidebar extends Component {
         return bool;
     }
     render() {
-        const { first, last, email, address, city, state, country, aboutMe, userAuthed } = this.props;
+        const { email } = this.props;
         return (
             <div className="sidebar" data-color="black" data-image={image}>
                 <div className="sidebar-background" style={bgImage} />

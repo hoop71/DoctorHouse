@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Grid, Row, Col, Media, FormControl, FormGroup } from 'react-bootstrap';
 import { auth, database } from '../../firebase/';
 import Card from 'components/Card/Card.jsx';
 import Button from 'elements/CustomButton/CustomButton.jsx';
-import SweetAlert from 'react-bootstrap-sweetalert';
 
 const updateByPropertyName = (propertyName, value) => () => ({
   [propertyName]: value

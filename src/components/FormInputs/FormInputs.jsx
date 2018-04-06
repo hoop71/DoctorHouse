@@ -10,23 +10,17 @@ function FieldGroup({ label, ...props }) {
     );
 }
 
-export class FormInputs extends Component{
-    render(){
+export class FormInputs extends Component {
+    render() {
         var row = [];
-        for(var i = 0; i < this.props.ncols.length ; i++){
+        for (var i = 0; i < this.props.ncols.length; i++) {
             row.push(
                 <div key={i} className={this.props.ncols[i]}>
-                    <FieldGroup
-                        {...this.props.proprieties[i]}
-                    />
+                    <FieldGroup {...this.props.proprieties[i]} onChange={this.props.handler} />
                 </div>
             );
         }
-        return (
-            <div className="row">
-                {row}
-            </div>
-        );
+        return <div className="row">{row}</div>;
     }
 }
 
